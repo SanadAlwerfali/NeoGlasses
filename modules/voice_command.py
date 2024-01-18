@@ -1,12 +1,10 @@
 # Voice Command Processing Module
 
 class VoiceCommandModule:
-    def __init__(self):
-        # Initialize voice command recognition settings
-        pass
+    def __init__(self, control_module):
+        self.control_module = control_module
 
     def process_command(self, audio_data):
-        # Process audio data to interpret voice commands
-        # Return interpreted command
+        # Voice command processing logic
+        # Notify the control module with processed command
         pass
-
