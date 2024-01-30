@@ -1,5 +1,5 @@
 # Main entry point of the application
-from modules.control import CentralControlModule
+from control.main import CentralControlModule
 
 def main():
     # Create an instance of the Central Control Module (Microkernel)
