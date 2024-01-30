@@ -1,5 +1,9 @@
 # Central Control Module
 
+from io_utils.camera import CameraModule
+from modes.object_detection import ObjectDetectionModule
+
+
 class CentralControlModule:
     def __init__(self):
         # Initialize modules
