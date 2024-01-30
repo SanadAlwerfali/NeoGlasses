@@ -1,7 +1,7 @@
 # Central Control Module
 
 from io_utils.camera import CameraModule
-from modes.object_detection import ObjectDetectionModule
+from modules.object_detection import ObjectDetectionModule
 
 
 class CentralControlModule:
