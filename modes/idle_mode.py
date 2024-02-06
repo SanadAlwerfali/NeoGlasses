@@ -7,10 +7,15 @@ class IdleMode(Mode):
         self.control_module = control_module
         
     def activate(self):
-        pass
+        self.isActive = True
 
     def deactivate(self):
-        pass
+        self.isActive = False
+
+    def main_loop(self):
+        while self.isActive:
+            #write the logic here
+            pass
 
     def __name__(self) -> str:
         return "Idle"
