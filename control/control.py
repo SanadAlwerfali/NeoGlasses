@@ -72,7 +72,8 @@ class CentralControlModule:
         # Main loop logic
 
         while True:
-            self.switch_mode('Idle')
             sleep(2)
-            self.switch_mode('TextReading')
+            if is_debug_mode(): print("Mode: " + self.current_mode.__name__())
+            self.current_mode.main_loop()
+
 

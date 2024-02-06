@@ -20,9 +20,13 @@ def main(debug=False):
         speech_recognition = SpeechRecognitionModule(central_control)
         
         # Enable speech recognition and running it on a separate thread
-        speech_recognition.enable()
-        speech_thread = threading.Thread(target=lambda: speech_recognition.process_command(""))
-        speech_thread.start()
+        if debug:
+            key_listener_thread = threading.Thread(target=speech_recognition.start_manual_commands)
+            key_listener_thread.start()
+        else:
+            speech_recognition.enable()
+            speech_thread = threading.Thread(target=lambda: speech_recognition.process_command)
+            speech_thread.start()
 
         # Start the main loop of the central control
         # This loop will keep the application running and responsive to module interactions
@@ -39,6 +43,8 @@ def main(debug=False):
     finally:
         # Any final cleanup code can be placed here
         # This is important for releasing resources like file handles or network connections
+        if debug:
+            speech_recognition.stop_manual_commands()
         speech_recognition.disable()
         pass
 
