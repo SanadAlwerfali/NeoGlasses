@@ -1,6 +1,5 @@
 # Voice Command Processing Module
 from modules.commands import Commands
-from control.control import CentralControlModule
 from modules.module__io import ModuleIO
 
 # Modules for deugging/testing purposes
@@ -8,10 +7,10 @@ from config import is_debug_mode
 from pynput import keyboard
 
 class SpeechRecognitionModule(ModuleIO):
-    def __init__(self, control_module: CentralControlModule):
+    def __init__(self, neo):
         # Initialize speech recognition parameters
         super().__init__()
-        self.control_module = control_module
+        self.neo = neo
         if is_debug_mode(): 
             self.listener = None
             print("Speech recognition module initialized")
@@ -32,11 +31,11 @@ class SpeechRecognitionModule(ModuleIO):
             data['text'] = text # TODO: get the needed text from the argument passed
 
             if new_mode:
-                self.send_notification(self.__name__(), data)
+                self.send_command(data)
 
 
-    def send_notification(self, module_name, data: dict):
-        self.control_module.receive_notification(module_name, data)
+    def send_command(self, data: dict):
+        self.neo.send_command(data)
 
     def enable(self):
         # Enable speech recognition
@@ -76,7 +75,7 @@ class SpeechRecognitionModule(ModuleIO):
         data['text'] = "dummy data"
 
         if mode:
-            self.send_notification(self.__name__(), data)
+            self.send_command(data)
 
     def stop_manual_commands(self):
         if self.listener:

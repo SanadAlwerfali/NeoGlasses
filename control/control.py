@@ -61,8 +61,12 @@ class CentralControlModule:
             self.switch_mode('Idle')
 
 
-    def receive_notification(self, module_name, data: dict):
-        if module_name == "SpeechRecognition" and data['mode'] in self.modes:
+    def receive_command(self, data: dict):
+        if 'hey neo' is in command:
+            # TODO: add a ding sound
+            self.switch_mode('Idle')
+
+        if 'mode' in data and data['mode'] in self.modes:
             self.switch_mode(data['mode'])
 
         else:
