@@ -12,8 +12,8 @@ class TextRecognitionModule:
 
     def text_detection(self, frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        _, binary = cv2.threshold(gray, 225, 255, cv2.THRESH_BINARY_INV)
-        se = cv2.getStructuringElement(cv2.MORPH_RECT, (8, 8))
+        _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
+        se = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         dilated = cv2.dilate(binary, se)
         text = pytesseract.image_to_string(dilated)
 
