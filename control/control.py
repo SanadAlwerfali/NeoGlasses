@@ -24,11 +24,15 @@ class CentralControlModule:
         
         # Initialize io_modules
         self.io_modules = {
-            'camera': CameraModule(self, ),
+            'camera': CameraModule(self),
             'speaker': SpeakerModule(self),
             'microphone': MicrophoneModule(self),
         }
-
+        # Initialize odules
+        self.modules = {
+            'text_recognition': TextRecognitionModule(),
+            'object_detection': ObjectDetectionModule(),
+        }
         # Initialize modes
         self.modes = {
             'TextReading': TextReadingMode(self),
@@ -36,11 +40,6 @@ class CentralControlModule:
             'Idle': IdleMode(self),
         }
 
-        # Initialize odules
-        self.modules = {
-            'text_recognition': TextRecognitionModule(),
-            'object_detection': ObjectDetectionModule(),
-        }
 
         # Set initial mode
         self.current_mode = self.modes['Idle']
@@ -75,5 +74,3 @@ class CentralControlModule:
             sleep(2)
             if is_debug_mode(): print("Mode: " + self.current_mode.__name__())
             self.current_mode.main_loop()
-
-
