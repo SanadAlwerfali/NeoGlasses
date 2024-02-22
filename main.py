@@ -3,7 +3,7 @@ import argparse
 from config import set_debug_mode
 
 from control.control import CentralControl
-from modules.speech_recognition_io import SpeechRecognition
+from utils.speech_recognition_io import SpeechRecognition
 import threading
 
 def main(debug=False):

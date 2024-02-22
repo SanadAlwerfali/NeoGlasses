@@ -10,8 +10,8 @@ from modes.idle_mode import IdleMode
 from modes.text_reading_mode import TextReadingMode
 from modes.object_finding_mode import ObjectFindingMode
 # importing modules
-from modules.text_recognition import TextRecognition
-from modules.object_detection import ObjectDetection
+from utils.text_recognition import TextRecognition
+from utils.object_detection import ObjectDetection
 # importing other modules
 from time import sleep
 from config import is_debug_mode
