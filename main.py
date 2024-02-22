@@ -1,37 +1,40 @@
 # Main entry point of the application
 import argparse
+import threading
+import queue
+
 from config import set_debug_mode
 
 from control.control import CentralControl
 from utils.speech_recognition_io import SpeechRecognition
-import threading
+
 
 class NeoGlasses:
 
     def __init__(self):
+        self.command_queue = queue.Queue()
         pass
 
     def send_command(self, data):
-        self.central_control.receive_notification(data)
+        # TODO: call curent_mode.deactivate() from here
+        self.command_queue.put(data)
 
     def main(self, debug=False):
         if debug:
             print("Running in debug mode...")
-
-        if debug:
-            print("Starting NeoGlasses v0.1...")
             
         try:
             self.central_control = CentralControl()
             self.speech_recognition = SpeechRecognition(self)
-            
+
             if debug:
-                key_listener_thread = threading.Thread(target=self.speech_recognition.start_manual_commands)
-                key_listener_thread.start()
+                target_function = lambda: self.speech_recognition.start_manual_commands()
             else:
                 self.speech_recognition.enable()
-                speech_thread = threading.Thread(target=lambda: self.speech_recognition.process_command)
-                speech_thread.start()
+                target_function = lambda: self.speech_recognition.process_command()
+
+            command_input_thread = threading.Thread(target=target_function)
+            command_input_thread.start()
 
             self.central_control.main_loop()
 
@@ -44,8 +47,6 @@ class NeoGlasses:
         finally:
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
-            if debug:
-                speech_recognition.stop_manual_commands()
             speech_recognition.disable()
             pass
 
