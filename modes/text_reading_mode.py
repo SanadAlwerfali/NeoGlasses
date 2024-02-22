@@ -8,6 +8,7 @@ class TextReadingMode(Mode):
         self.control_module = control_module
         self.frame = None
         self.camera = control_module.io_modules['camera']
+        self.speaker = control_module.io_modules['speaker']
         self.text_recognition = control_module.modules['text_recognition']
         self.frame_queue = Queue()
 
@@ -32,6 +33,7 @@ class TextReadingMode(Mode):
             
             if recognized_text:
                 print("Recognized Text:", recognized_text)
+                self.speaker.speak(recognized_text)
                 # give a call to the speaker module to handle the text-to-speech
 
             self.frame_queue.put(display_frame)
