@@ -1,4 +1,4 @@
-class ModuleIO:
+class Util:
 
     isEnabled = False
 
