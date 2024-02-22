@@ -1,14 +1,14 @@
 # Voice Command Processing Module
 from modules.commands import Commands
-from control.control import CentralControlModule
+from control.control import CentralControl
 from modules.module__io import ModuleIO
 
 # Modules for deugging/testing purposes
 from config import is_debug_mode
 from pynput import keyboard
 
-class SpeechRecognitionModule(ModuleIO):
-    def __init__(self, control_module: CentralControlModule):
+class SpeechRecognition(ModuleIO):
+    def __init__(self, control_module: CentralControl):
         # Initialize speech recognition parameters
         super().__init__()
         self.control_module = control_module
