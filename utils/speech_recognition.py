@@ -44,6 +44,15 @@ class SpeechRecognition(Util):
     def disable(self):
         # Disable speech recognition
         self.isEnabled = False
+        if debug:
+            self.stop_manual_commands()
+
+    def start_manual_commands(self):
+        if is_debug_mode():
+            # Starting the listener in a non-blocking fashion
+            self.listener = keyboard.Listener(on_press=self.on_press)
+            self.listener.start()
+            print("Manual commands started.")
 
     def on_press(self, key):
         try:
@@ -57,13 +66,6 @@ class SpeechRecognition(Util):
                 self.stop_manual_commands()
         except AttributeError:
             pass  # Non-character keys (e.g., shift, ctrl) are ignored
-
-    def start_manual_commands(self):
-        if is_debug_mode():
-            # Starting the listener in a non-blocking fashion
-            self.listener = keyboard.Listener(on_press=self.on_press)
-            self.listener.start()
-            print("Manual commands started.")
 
     # Testing functions
     def manually_process_command(self, mode:str= "Idle"):

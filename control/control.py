@@ -63,21 +63,25 @@ class CentralControl:
 
     def receive_command(self, data: dict):
         if 'hey neo' is in command:
-            # TODO: add a ding sound
+            # TODO: play a ding sound
             self.switch_mode('Idle')
 
         if 'mode' in data and data['mode'] in self.modes:
             self.switch_mode(data['mode'])
 
         else:
-            if is_debug_mode(): print(f"Received notification from {module_name} with data: {data}")
+            if is_debug_mode(): print(f"Received notification with data: {data}")
 
     def main_loop(self):
         # Main loop logic
 
         while True:
             sleep(2)
-            if is_debug_mode(): print("Mode: " + self.current_mode.__name__())
+            
+            if not self.command_queue.empty():
+                data = self.command_queue.get()
+                receive_command(data)
+
             self.current_mode.main_loop()
 
 
