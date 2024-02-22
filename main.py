@@ -2,8 +2,8 @@
 import argparse
 from config import set_debug_mode
 
-from control.control import CentralControlModule
-from modules.speech_recognition_io import SpeechRecognitionModule
+from control.control import CentralControl
+from modules.speech_recognition_io import SpeechRecognition
 import threading
 
 def main(debug=False):
@@ -16,8 +16,8 @@ def main(debug=False):
         
     try:
         # Creating an instance of the Central Control Module (Microkernel)
-        central_control = CentralControlModule()
-        speech_recognition = SpeechRecognitionModule(central_control)
+        central_control = CentralControl()
+        speech_recognition = SpeechRecognition(central_control)
         
         # Enable speech recognition and running it on a separate thread
         if debug:
