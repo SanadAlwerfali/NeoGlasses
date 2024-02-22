@@ -2,8 +2,8 @@
 import argparse
 from config import set_debug_mode
 
-from control.control import CentralControlModule
-from modules.speech_recognition_io import SpeechRecognitionModule
+from control.control import CentralControl
+from utils.speech_recognition_io import SpeechRecognition
 import threading
 
 class NeoGlasses:
@@ -22,8 +22,8 @@ class NeoGlasses:
             print("Starting NeoGlasses v0.1...")
             
         try:
-            self.central_control = CentralControlModule()
-            self.speech_recognition = SpeechRecognitionModule(self)
+            self.central_control = CentralControl()
+            self.speech_recognition = SpeechRecognition(self)
             
             if debug:
                 key_listener_thread = threading.Thread(target=self.speech_recognition.start_manual_commands)

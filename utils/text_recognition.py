@@ -1,7 +1,7 @@
 # Text Recognition and Processing Module
-from modules.module__io import ModuleIO
+from utils.base_util import Util
 
-class TextRecognitionModule(ModuleIO):
+class TextRecognition(Util):
     def __init__(self):
         # Initialize text recognition parameters
         super().__init__()
