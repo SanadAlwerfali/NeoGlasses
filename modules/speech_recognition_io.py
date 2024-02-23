@@ -6,7 +6,7 @@ from modules.module__io import ModuleIO
 from config import is_debug_mode
 from pynput import keyboard
 
-class SpeechRecognition(ModuleIO):
+class SpeechRecognitionModule(ModuleIO):
     def __init__(self, neo):
         # Initialize speech recognition parameters
         super().__init__()
