@@ -8,15 +8,31 @@ from pynput import keyboard
 
 class SpeechRecognitionModule(ModuleIO):
     def __init__(self, neo):
-        # Initialize speech recognition parameters
-        super().__init__()
-        self.neo = neo
-        if is_debug_mode(): 
-            self.listener = None
-            print("Speech recognition module initialized")
+        if not is_debug_mode():
+            self.impl = SpeechRecognition(neo)
+        else:
+            self.impl = MockSpeechRecognition(neo)
+
+    def process_command(self, mode:str= "Idle"):
+        self.impl.process_command(mode)
+
+    def enable(self):
+        self.impl.enable()
+
+    def disable(self):
+        self.impl.disable()
+
+    def send_command(self, data: dict):
+        self.impl.send_command(data)
+
+    def __name__(self) -> str:
+        return "SpeechRecognition"
+    
 
 
-    def process_command(self):
+class SpeechRecognition:
+
+    def process_command(self, mode:str= "Idle"):
         text = ""
         # Process voice command
         #TODO: Add a listen() to continuously listening to voice commands from Kareems
@@ -32,27 +48,37 @@ class SpeechRecognitionModule(ModuleIO):
 
             if new_mode:
                 self.send_command(data)
+    
+    def __init__(self, neo):
+        self.neo = neo
+    
+    def enable(self):
+        self.isEnabled = True        
 
+    def disable(self):
+        self.isEnabled = False
 
     def send_command(self, data: dict):
         self.neo.send_command(data)
 
+
+class MockSpeechRecognition:
+    def __init__(self, neo):
+        self.neo = neo
+        self.listener = None
+
     def enable(self):
-        # Enable speech recognition
         self.isEnabled = True
+        self.listener = keyboard.Listener(on_press=self.on_press)
+        self.listener.start()
+        print("Manual commands started.")
 
     def disable(self):
-        # Disable speech recognition
         self.isEnabled = False
-        if is_debug_mode():
-            self.stop_manual_commands()
+        if self.listener:
+            self.listener.stop()
 
-    def start_manual_commands(self):
-        if is_debug_mode():
-            # Starting the listener in a non-blocking fashion
-            self.listener = keyboard.Listener(on_press=self.on_press)
-            self.listener.start()
-            print("Manual commands started.")
+        print("Manual commands stopped.")
 
     def on_press(self, key):
         try:
@@ -67,8 +93,7 @@ class SpeechRecognitionModule(ModuleIO):
         except AttributeError:
             pass  # Non-character keys (e.g., shift, ctrl) are ignored
 
-    # Testing functions
-    def manually_process_command(self, mode:str= "Idle"):
+    def process_command(self, mode:str= "Idle"):
         data = {
             'mode' : str,
             'text' : str
@@ -79,12 +104,5 @@ class SpeechRecognitionModule(ModuleIO):
         if mode:
             self.send_command(data)
 
-    def stop_manual_commands(self):
-        if self.listener:
-            self.listener.stop()
-            print("Manual commands stopped.")
-
-
-    def __name__(self) -> str:
-        return "SpeechRecognition"
-    
+    def send_command(self, data: dict):
+        self.neo.send_command(data)
