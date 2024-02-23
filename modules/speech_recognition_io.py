@@ -95,7 +95,7 @@ class MockSpeechRecognition:
     def process_command(self):
         self.listener.start()
     
-    def manually_process_command(mode:str= "Idle")
+    def manually_process_command(mode:str= "Idle"):
         data = {
             'mode' : str,
             'text' : str
