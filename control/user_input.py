@@ -6,7 +6,7 @@ from modules.module__io import ModuleIO
 from config import is_debug_mode
 from pynput import keyboard
 
-class SpeechRecognitionModule(ModuleIO):
+class UserInputModule(ModuleIO):
     def __init__(self, neo):
         if not is_debug_mode():
             self.impl = SpeechRecognition(neo)

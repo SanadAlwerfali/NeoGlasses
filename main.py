@@ -6,7 +6,7 @@ import queue
 from config import set_debug_mode
 
 from control.control import CentralControlModule
-from modules.speech_recognition_io import SpeechRecognitionModule
+from control.user_input import UserInputModule
 
 
 class NeoGlasses:
@@ -25,10 +25,10 @@ class NeoGlasses:
             
         try:
             self.central_control = CentralControlModule(self.command_queue)
-            self.speech_recognition = SpeechRecognitionModule(self)
-            self.speech_recognition.enable()
+            self.user_input = UserInputModule(self)
+            self.user_input.enable()
 
-            target_function = lambda: self.speech_recognition.process_command()
+            target_function = lambda: self.user_input.process_command()
             command_input_thread = threading.Thread(target=target_function)
             command_input_thread.start()
 
@@ -43,7 +43,7 @@ class NeoGlasses:
         finally:
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
-            self.speech_recognition.disable()
+            self.user_input.disable()
             pass
 
 if __name__ == "__main__":
