@@ -1,12 +1,12 @@
 # Voice Command Processing Module
-from utils.commands import Commands
-from utils.base_util import Util
+from modules.commands import Commands
+from modules.module__io import ModuleIO
 
 # Modules for deugging/testing purposes
 from config import is_debug_mode
 from pynput import keyboard
 
-class SpeechRecognition(Util):
+class SpeechRecognition(ModuleIO):
     def __init__(self, neo):
         # Initialize speech recognition parameters
         super().__init__()

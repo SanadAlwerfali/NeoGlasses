@@ -1,7 +1,7 @@
 # Object Detection Module
-from utils.base_util import Util
+from modules.module__io import ModuleIO
 
-class ObjectDetection(Util):
+class ObjectDetectionModule(ModuleIO):
 
     def __init__(self):
         # Initialize object detection parameters

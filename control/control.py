@@ -10,14 +10,14 @@ from modes.idle_mode import IdleMode
 from modes.text_reading_mode import TextReadingMode
 from modes.object_finding_mode import ObjectFindingMode
 # importing modules
-from utils.text_recognition import TextRecognition
-from utils.object_detection import ObjectDetection
+from modules.text_recognition_io import TextRecognitionModule
+from modules.object_detection_io import ObjectDetectionModule
 # importing other modules
 from time import sleep
 from config import is_debug_mode
 
 
-class CentralControl:
+class CentralControlModule:
     current_mode = Mode()
     
     def __init__(self, command_queue):
@@ -40,8 +40,8 @@ class CentralControl:
 
         # Initialize odules
         self.modules = {
-            'text_recognition': TextRecognition(),
-            'object_detection': ObjectDetection(),
+            'text_recognition': TextRecognitionModule(),
+            'object_detection': ObjectDetectionModule(),
         }
 
         # Set initial mode
