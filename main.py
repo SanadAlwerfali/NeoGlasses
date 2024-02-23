@@ -5,8 +5,8 @@ import queue
 
 from config import set_debug_mode
 
-from control.control import CentralControl
-from utils.speech_recognition import SpeechRecognition
+from control.control import CentralControlModule
+from modules.speech_recognition_io import SpeechRecognitionModule
 
 
 class NeoGlasses:
@@ -24,8 +24,8 @@ class NeoGlasses:
             print("Running in debug mode...")
             
         try:
-            self.central_control = CentralControl(self.command_queue)
-            self.speech_recognition = SpeechRecognition(self)
+            self.central_control = CentralControlModule()
+            self.speech_recognition = SpeechRecognitionModule(self)
 
             if debug:
                 target_function = lambda: self.speech_recognition.start_manual_commands()

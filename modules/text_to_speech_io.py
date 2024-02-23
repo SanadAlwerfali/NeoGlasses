@@ -1,7 +1,7 @@
 # Text-to-Speech Module
-from utils.base_util import Util
+from modules.module__io import ModuleIO
 
-class TextToSpeech(Util):
+class TextToSpeechModule(ModuleIO):
     def __init__(self):
         # Initialize text-to-speech parameters
         super().__init__()
