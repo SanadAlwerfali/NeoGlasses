@@ -44,7 +44,7 @@ class SpeechRecognition(Util):
     def disable(self):
         # Disable speech recognition
         self.isEnabled = False
-        if debug:
+        if is_debug_mode():
             self.stop_manual_commands()
 
     def start_manual_commands(self):
