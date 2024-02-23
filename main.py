@@ -24,10 +24,10 @@ class NeoGlasses:
             print("Running in debug mode...")
             
         try:
-            self.central_control = CentralControlModule()
+            self.central_control = CentralControlModule(self.command_queue)
             self.speech_recognition = SpeechRecognitionModule(self)
             self.speech_recognition.enable()
-            
+
             target_function = lambda: self.speech_recognition.process_command()
             command_input_thread = threading.Thread(target=target_function)
             command_input_thread.start()
