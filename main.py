@@ -24,7 +24,7 @@ class NeoGlasses:
             print("Running in debug mode...")
             
         try:
-            self.central_control = CentralControl()
+            self.central_control = CentralControl(self.command_queue)
             self.speech_recognition = SpeechRecognition(self)
 
             if debug:
