@@ -62,7 +62,7 @@ class CentralControl:
 
 
     def receive_command(self, data: dict):
-        if 'hey neo' is in command:
+        if 'hey neo' in data:
             # TODO: play a ding sound
             self.switch_mode('Idle')
 

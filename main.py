@@ -6,7 +6,7 @@ import queue
 from config import set_debug_mode
 
 from control.control import CentralControl
-from utils.speech_recognition_io import SpeechRecognition
+from utils.speech_recognition import SpeechRecognition
 
 
 class NeoGlasses:
@@ -50,15 +50,15 @@ class NeoGlasses:
             speech_recognition.disable()
             pass
 
-    if __name__ == "__main__":
-        parser = argparse.ArgumentParser(description='Run the central control system.')
-        parser.add_argument('--debug', action='store_true', help='Enable debug mode for verbose output')
-        args = parser.parse_args()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Run the central control system.')
+    parser.add_argument('--debug', action='store_true', help='Enable debug mode for verbose output')
+    args = parser.parse_args()
 
-        # Set the debug mode in the config
-        set_debug_mode(args.debug)
+    # Set the debug mode in the config
+    set_debug_mode(args.debug)
 
 
-        # Call main with the debug argument
-        neo = NeoGlasses()
-        neo.main(debug=args.debug)
+    # Call main with the debug argument
+    neo = NeoGlasses()
+    neo.main(debug=args.debug)
