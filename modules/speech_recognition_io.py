@@ -88,14 +88,14 @@ class MockSpeechRecognition:
             elif key.char == '3':
                 self.manually_process_command(mode='TextReading')
             elif key == keyboard.Key.esc:  # Terminate listening when 'esc' is pressed
-                self.stop_manual_commands()
+                self.disable()
         except AttributeError:
             pass  # Non-character keys (e.g., shift, ctrl) are ignored
 
     def process_command(self):
         self.listener.start()
     
-    def manually_process_command(mode:str= "Idle"):
+    def manually_process_command(self, mode:str= "Idle"):
         data = {
             'mode' : str,
             'text' : str
