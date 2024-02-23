@@ -20,7 +20,9 @@ from config import is_debug_mode
 class CentralControl:
     current_mode = Mode()
     
-    def __init__(self):
+    def __init__(self, command_queue):
+        
+        self.command_queue = command_queue
         
         # Initialize io_modules
         self.io_modules = {
