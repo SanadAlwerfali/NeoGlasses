@@ -26,13 +26,9 @@ class NeoGlasses:
         try:
             self.central_control = CentralControlModule()
             self.speech_recognition = SpeechRecognitionModule(self)
-
-            if debug:
-                target_function = lambda: self.speech_recognition.start_manual_commands()
-            else:
-                self.speech_recognition.enable()
-                target_function = lambda: self.speech_recognition.process_command()
-
+            self.speech_recognition.enable()
+            
+            target_function = lambda: self.speech_recognition.process_command()
             command_input_thread = threading.Thread(target=target_function)
             command_input_thread.start()
 
