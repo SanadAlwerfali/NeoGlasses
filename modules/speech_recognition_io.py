@@ -13,8 +13,8 @@ class SpeechRecognitionModule(ModuleIO):
         else:
             self.impl = MockSpeechRecognition(neo)
 
-    def process_command(self, mode:str= "Idle"):
-        self.impl.process_command(mode)
+    def process_command(self):
+        self.impl.process_command()
 
     def enable(self):
         self.impl.enable()
@@ -32,7 +32,7 @@ class SpeechRecognitionModule(ModuleIO):
 
 class SpeechRecognition:
 
-    def process_command(self, mode:str= "Idle"):
+    def process_command(self):
         text = ""
         # Process voice command
         #TODO: Add a listen() to continuously listening to voice commands from Kareems
@@ -70,7 +70,6 @@ class MockSpeechRecognition:
     def enable(self):
         self.isEnabled = True
         self.listener = keyboard.Listener(on_press=self.on_press)
-        self.listener.start()
         print("Manual commands started.")
 
     def disable(self):
@@ -93,7 +92,10 @@ class MockSpeechRecognition:
         except AttributeError:
             pass  # Non-character keys (e.g., shift, ctrl) are ignored
 
-    def process_command(self, mode:str= "Idle"):
+    def process_command(self):
+        self.listener.start()
+    
+    def manually_process_command(mode:str= "Idle")
         data = {
             'mode' : str,
             'text' : str
