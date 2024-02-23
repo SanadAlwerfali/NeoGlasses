@@ -23,7 +23,7 @@ class CentralControl:
     def __init__(self, command_queue):
         
         self.command_queue = command_queue
-        
+
         # Initialize io_modules
         self.io_modules = {
             'camera': CameraModule(self, ),
@@ -82,7 +82,7 @@ class CentralControl:
             
             if not self.command_queue.empty():
                 data = self.command_queue.get()
-                receive_command(data)
+                self.receive_command(data)
 
             self.current_mode.main_loop()
 
