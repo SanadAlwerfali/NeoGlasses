@@ -47,7 +47,7 @@ class NeoGlasses:
         finally:
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
-            speech_recognition.disable()
+            self.speech_recognition.disable()
             pass
 
 if __name__ == "__main__":
