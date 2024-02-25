@@ -23,8 +23,8 @@ class TextReadingMode(Mode):
     def main_loop(self):
         while self.isActive:
             #write the logic here
-            self.control_module.modules['text_to_speech'].convert_text_to_speech("Hello my name is computer and I am speaking")
-            sleep(1)
+            text_from_camera = "This is a placeholder value for the text from camera"
+            self.control_module.modules['text_to_speech'].convert(text_from_camera)
             pass
 
     def __name__(self):

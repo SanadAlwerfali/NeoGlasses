@@ -2,17 +2,12 @@ import subprocess
 import pyttsx3
 
 class SpeakerModule:
-    def __init__(self, control_module, speaker_index=0):
-
+    def __init__(self, control_module):
         self.control_module = control_module
-        self.speaker_index = speaker_index
         self.isEnabled = False
-
-        self.rate = 150 # Arbitrary constant value chosen based on testing
-        self.process = None
-        self.engine = pyttsx3.init()
-        self.engine.setProperty('rate', self.rate)
+        self.process = None 
         self.enabled = False
+        self.rate = 150  # Arbitrary constant value of 150 based on testing
 
     def enable(self):
         self.enabled = True
@@ -52,4 +47,4 @@ class SpeakerModule:
         self._terminate_process()
     
     def disable(self):
-        self.engine.stop()
+        self.interrupt()

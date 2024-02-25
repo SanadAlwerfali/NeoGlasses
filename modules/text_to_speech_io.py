@@ -10,14 +10,12 @@ class TextToSpeechModule(ModuleIO):
         super().__init__()
         self.speaker = SpeakerModule(self)
 
-    def convert_text_to_speech(self, text):
+    def convert(self, text):
         if self.isEnabled:
             # Text-to-speech logic
             # May include notifying the control module when speech is done
             # Any post processing on the text can be done in a helper function here
             self.speaker.speak(text)
-            sleep(3) #Simulate interrupt after 2 seconds
-            self.speaker.interrupt()
             pass
 
     def enable(self):
