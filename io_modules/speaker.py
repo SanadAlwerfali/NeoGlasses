@@ -1,3 +1,4 @@
+import pyttsx3
 class SpeakerModule:
 
     def onStartWord(self, name, location, length):
