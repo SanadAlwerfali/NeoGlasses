@@ -13,7 +13,7 @@ class IdleMode(Mode):
         self.isActive = False
 
     def main_loop(self):
-        while self.isActive:
+            #while self.isActive:
             #write the logic here
             pass
 
