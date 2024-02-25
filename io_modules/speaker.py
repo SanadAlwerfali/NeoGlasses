@@ -8,7 +8,7 @@ class SpeakerModule:
         self.speaker_index = speaker_index
         self.isEnabled = False
 
-        self.rate = 150
+        self.rate = 150 # Arbitrary constant value chosen based on testing
         self.process = None
         self.engine = pyttsx3.init()
         self.engine.setProperty('rate', self.rate)
@@ -21,9 +21,12 @@ class SpeakerModule:
         if not self.enabled:
             print("Speaker is not enabled. Call 'enable()' to start speaking.")
             return
-
+        
+        # Kill previous subprocess before speaking
         self._terminate_process()
-        self.process = subprocess.Popen(
+
+        # Create a sub process to allow for termination while speaking
+        self.process = subprocess.Popen( 
             ["python3", "-c", self._get_speak_command(text)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
@@ -35,6 +38,7 @@ class SpeakerModule:
             self.process.terminate()
             self.process.wait()
 
+    # Helper function to get the commands for the sub process
     def _get_speak_command(self, text):
         return (
             f"from pyttsx3 import init;"
