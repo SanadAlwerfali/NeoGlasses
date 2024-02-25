@@ -12,6 +12,7 @@ from modes.object_finding_mode import ObjectFindingMode
 # importing modules
 from modules.text_recognition_io import TextRecognitionModule
 from modules.object_detection_io import ObjectDetectionModule
+from modules.text_to_speech_io import TextToSpeechModule
 # importing other modules
 from time import sleep
 from config import is_debug_mode
@@ -26,7 +27,7 @@ class CentralControlModule:
 
         # Initialize io_modules
         self.io_modules = {
-            'camera': CameraModule(self, ),
+            'camera': CameraModule(self),
             'speaker': SpeakerModule(self),
             'microphone': MicrophoneModule(self),
         }
@@ -42,6 +43,7 @@ class CentralControlModule:
         self.modules = {
             'text_recognition': TextRecognitionModule(),
             'object_detection': ObjectDetectionModule(),
+            'text_to_speech': TextToSpeechModule(),
         }
 
         # Set initial mode

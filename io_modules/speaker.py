@@ -1,31 +1,51 @@
+import subprocess
 import pyttsx3
+
 class SpeakerModule:
-
-    def onStartWord(self, name, location, length):
-        if (self.interrupt_val):
-            self.engine.stop()
-    
-    def enable(self):
-        self.engine = pyttsx3.init()
-        rate = self.engine.getProperty('rate')
-        self.engine.setProperty('rate', rate-35)
-        self.engine.setProperty('voice', 'com.apple.voice.compact.en-US.Samantha')
-        self.engine.connect('started-word', self.onStartWord) #Subscribe to the started word event
-
     def __init__(self, control_module, speaker_index=0):
+
         self.control_module = control_module
         self.speaker_index = speaker_index
+        self.isEnabled = False
 
-    def speak(self,text):
-        self.engine.say(text)
-        self.engine.runAndWait()
+        self.rate = 150
+        self.process = None
+        self.engine = pyttsx3.init()
+        self.engine.setProperty('rate', self.rate)
+        self.enabled = False
 
-    def setVolume(self, new_volume):
-        self.engine.setProperty('volume', new_volume)
+    def enable(self):
+        self.enabled = True
+
+    def speak(self, text):
+        if not self.enabled:
+            print("Speaker is not enabled. Call 'enable()' to start speaking.")
+            return
+
+        self._terminate_process()
+        self.process = subprocess.Popen(
+            ["python3", "-c", self._get_speak_command(text)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+    def _terminate_process(self):
+        if self.process and self.process.poll() is None:
+            self.process.terminate()
+            self.process.wait()
+
+    def _get_speak_command(self, text):
+        return (
+            f"from pyttsx3 import init;"
+            f"engine = init();"
+            f"engine.setProperty('rate', {self.rate});"
+            f"engine.say('{text}');"
+            f"engine.runAndWait();"
+        )
 
     def interrupt(self):
-        self.interrupt_val = True
-
+        self._terminate_process()
+    
     def disable(self):
         self.engine.stop()
-        

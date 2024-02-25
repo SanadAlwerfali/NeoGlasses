@@ -1,9 +1,9 @@
 from modes.mode import Mode
+from time import sleep
 
 class TextReadingMode(Mode):
     def __init__(self, control_module):
         super().__init__()
-        
         self.control_module = control_module
 
     def activate(self):
@@ -11,6 +11,7 @@ class TextReadingMode(Mode):
         # Enable necessary modules for text reading
         self.control_module.io_modules['camera'].enable()
         self.control_module.modules['text_recognition'].enable()
+        self.control_module.modules['text_to_speech'].enable()
 
     def deactivate(self):
         self.isActive = False
@@ -21,6 +22,8 @@ class TextReadingMode(Mode):
     def main_loop(self):
         while self.isActive:
             #write the logic here
+            self.control_module.modules['text_to_speech'].convert_text_to_speech("Hello my name is computer and I am speaking")
+            sleep(1)
             pass
 
     def __name__(self):
