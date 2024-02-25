@@ -2,14 +2,16 @@
 from modules.module__io import ModuleIO
 
 class TextToSpeechModule(ModuleIO):
-    def __init__(self):
+    def __init__(self, module):
         # Initialize text-to-speech parameters
         super().__init__()
+        self.speaker = module.io_modules['speaker']
 
     def convert_text_to_speech(self, text):
+        print("converting text to speech: ", text)
         if self.isEnabled:
-            # Text-to-speech logic
-            # May include notifying the control module when speech is done
+            # Logic to get rid of weird characters in text
+            self.speaker.say(text)
             pass
 
     def enable(self):
