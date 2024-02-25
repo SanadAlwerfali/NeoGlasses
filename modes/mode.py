@@ -1,6 +1,7 @@
 class Mode:
-    def __init__(self):
+    def __init__(self, frame_queue):
         self.isActive = None
+        self.frame_queue = frame_queue
     
     def activate(self):
         raise NotImplementedError("Subclasses should implement this!")

@@ -21,17 +21,16 @@ class TextRecognitionModule:
         return is_text_detected, text, dilated
 
     def recognize_text(self, frame):
-        is_detected, detected_text, dilated_frame = self.text_detection(frame)
+        is_detected, _, dilated_frame= self.text_detection(frame)
         if self.isEnabled:
             if is_detected:
                 self.frame_count += 1
 
             if self.frame_count >= self.frames_to_wait:
-                text = detected_text
-
+                _, detected_text, dilated_frame = self.text_detection(frame)
                 self.frame_count = 0
 
-                return text, dilated_frame
+                return detected_text, dilated_frame
 
         return None, dilated_frame
 

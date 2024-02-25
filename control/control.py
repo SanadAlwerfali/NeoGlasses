@@ -20,10 +20,10 @@ from config import is_debug_mode
 class CentralControlModule:
     current_mode = Mode()
     
-    def __init__(self, command_queue):
+    def __init__(self, command_queue, frame_queue):
         
         self.command_queue = command_queue
-
+        self.frame_queue = frame_queue
         # Initialize io_modules
         self.io_modules = {
             'camera': CameraModule(self),
@@ -37,9 +37,9 @@ class CentralControlModule:
         }
         # Initialize modes
         self.modes = {
-            'TextReading': TextReadingMode(self),
-            'ObjectFinding': ObjectFindingMode(self),
-            'Idle': IdleMode(self),
+            'TextReading': TextReadingMode(self, self.frame_queue),
+            'ObjectFinding': ObjectFindingMode(self, self.frame_queue),
+            'Idle': IdleMode(self, self.frame_queue),
         }
 
 

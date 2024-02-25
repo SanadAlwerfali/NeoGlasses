@@ -1,15 +1,16 @@
-from queue import Queue
 import cv2
+
 from modes.mode import Mode
+from io_modules.camera import CameraModule
+from modules.text_recognition_io import TextRecognitionModule
 
 class TextReadingMode(Mode):
-    def __init__(self, control_module):
+    def __init__(self, frame_queue):
         super().__init__()
-        self.control_module = control_module
         self.frame = None
-        self.camera = control_module.io_modules['camera']
-        self.text_recognition = control_module.modules['text_recognition']
-        self.frame_queue = Queue()
+        self.camera = CameraModule()
+        self.text_recognition = TextRecognitionModule()
+        self.frame_queue = frame_queue
 
     def activate(self):
         self.isActive = True
@@ -29,15 +30,12 @@ class TextReadingMode(Mode):
             recognized_text, dilated_frame = self.text_recognition.recognize_text(self.frame)
             
             display_frame = cv2.resize(dilated_frame, (600, 400))
+            self.frame_queue.put(display_frame)
             
             if recognized_text:
                 print("Recognized Text:", recognized_text)
-                # give a call to the speaker module to handle the text-to-speech
-
-            self.frame_queue.put(display_frame)
-            
-            if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+                # give a call to the speaker module to handle the text-to-speech
             
         self.camera.disable()
         self.deactivate()
