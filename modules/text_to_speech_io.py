@@ -28,6 +28,7 @@ class TextToSpeechModule(ModuleIO):
     def disable(self):
         # Disable text-to-speech
         self.isEnabled = False
+        self.speaker.disable()
 
     def __name__(self) -> str:
         return "TextToSpeech"

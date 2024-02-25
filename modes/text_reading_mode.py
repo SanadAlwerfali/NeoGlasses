@@ -18,6 +18,7 @@ class TextReadingMode(Mode):
         # Disable the modules when leaving text reading mode
         self.control_module.io_modules['camera'].disable()
         self.control_module.modules['text_recognition'].disable()
+        self.control_module.modules['text_to_speech'].disable()
 
     def main_loop(self):
         while self.isActive:
