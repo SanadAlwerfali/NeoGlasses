@@ -1,6 +1,6 @@
 from modules.commands import Commands
 from pynput import keyboard
-
+from time import sleep
 
 class MockSpeechRecognition:
     def __init__(self, neo):

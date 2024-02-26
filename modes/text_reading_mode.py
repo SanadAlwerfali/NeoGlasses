@@ -1,31 +1,48 @@
-from modes.mode import Mode
+import cv2
 from time import sleep
+from modes.mode import Mode
+from io_modules.camera import CameraModule
+from modules.text_recognition_io import TextRecognitionModule
+from modules.text_to_speech_io import TextToSpeechModule
+
 
 class TextReadingMode(Mode):
-    def __init__(self, control_module):
+    def __init__(self, frame_queue):
         super().__init__()
-        self.control_module = control_module
+        self.frame = None
+        self.camera = CameraModule()
+        self.text_recognition = TextRecognitionModule()
+        self.text__to_speech = TextToSpeechModule()
+        self.frame_queue = frame_queue
 
     def activate(self):
         self.isActive = True
         # Enable necessary modules for text reading
-        self.control_module.io_modules['camera'].enable()
-        self.control_module.modules['text_recognition'].enable()
-        self.control_module.modules['text_to_speech'].enable()
+        self.camera.enable()
+        self.text_recognition.enable()
+        self.text__to_speech.enable()
 
     def deactivate(self):
         self.isActive = False
         # Disable the modules when leaving text reading mode
-        self.control_module.io_modules['camera'].disable()
-        self.control_module.modules['text_recognition'].disable()
-        self.control_module.modules['text_to_speech'].disable()
+        self.camera.disable()
+        self.text_recognition.disable()
+        self.text__to_speech.disable()
 
     def main_loop(self):
         while self.isActive:
-            #write the logic here
-            text_from_camera = "This is a placeholder value for the text from camera"
-            self.control_module.modules['text_to_speech'].convert(text_from_camera)
-                      
+            self.frame = self.camera.get_next_frame()
+            recognized_text, dilated_frame = self.text_recognition.recognize_text(self.frame)
+            
+            display_frame = cv2.resize(dilated_frame, (600, 400))
+            self.frame_queue.put(display_frame)
+            
+            if recognized_text:
+                self.text__to_speech.convert(recognized_text)
+                break
+                
+        self.camera.disable()
+        self.deactivate()
 
     def __name__(self):
         return "TextReading"
