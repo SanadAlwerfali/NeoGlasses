@@ -25,7 +25,7 @@ class TextReadingMode(Mode):
             #write the logic here
             text_from_camera = "This is a placeholder value for the text from camera"
             self.control_module.modules['text_to_speech'].convert(text_from_camera)
-            pass
+                      
 
     def __name__(self):
         return "TextReading"

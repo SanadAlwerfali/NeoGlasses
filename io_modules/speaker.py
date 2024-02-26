@@ -21,12 +21,14 @@ class SpeakerModule:
         self._terminate_process()
 
         # Create a sub process to allow for termination while speaking
+        print("saying text")
         self.process = subprocess.Popen( 
             ["python3", "-c", self._get_speak_command(text)],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
         )
+        self.process.wait()
 
     def _terminate_process(self):
         if self.process and self.process.poll() is None:
