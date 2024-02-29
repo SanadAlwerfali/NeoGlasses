@@ -80,6 +80,7 @@ class CentralControlModule:
 
         while True:
             sleep(2)
+            print("checking queue")
             if not self.command_queue.empty():
                 data = self.command_queue.get()
                 self.receive_command(data)

@@ -38,6 +38,7 @@ class TextReadingMode(Mode):
             self.frame_queue.put(display_frame)
             
             if recognized_text:
+                print(recognized_text)
                 self.text__to_speech.convert(recognized_text)
                 break
                 
