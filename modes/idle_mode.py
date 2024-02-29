@@ -1,9 +1,9 @@
 from modes.mode import Mode
 
 class IdleMode(Mode):
-    def __init__(self, control_module):
+    def __init__(self, control_module, frame_queue):
         super().__init__()
-
+        self.frame_queue = frame_queue
         self.control_module = control_module
         
     def activate(self):
@@ -13,7 +13,7 @@ class IdleMode(Mode):
         self.isActive = False
 
     def main_loop(self):
-        while self.isActive:
+            #while self.isActive:
             #write the logic here
             pass
 
