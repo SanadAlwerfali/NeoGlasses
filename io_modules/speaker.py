@@ -1,5 +1,4 @@
 class SpeakerModule:
-    def __init__(self, control_module, speaker_index=0):
-        self.control_module = control_module
+    def __init__(self, speaker_index=0):
         self.speaker_index = speaker_index
         self.isEnabled = False

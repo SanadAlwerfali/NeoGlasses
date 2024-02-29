@@ -1,10 +1,9 @@
 from modes.mode import Mode
 
 class IdleMode(Mode):
-    def __init__(self, control_module, frame_queue):
+    def __init__(self,frame_queue):
         super().__init__()
         self.frame_queue = frame_queue
-        self.control_module = control_module
         
     def activate(self):
         self.isActive = True

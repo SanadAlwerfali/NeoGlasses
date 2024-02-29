@@ -1,5 +1,4 @@
 class MicrophoneModule:
-    def __init__(self, control_module, microphone_index=0):
-        self.control_module = control_module
+    def __init__(self, microphone_index=0):
         self.microphone_index = microphone_index
         self.isEnabled = False
