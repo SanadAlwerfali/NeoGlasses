@@ -2,10 +2,11 @@ from modes.mode import Mode
 
 class ObjectFindingMode(Mode):
 
-    def __init__(self, control_module):
+    def __init__(self, control_module, frame_queue):
         super().__init__()
 
         self.control_module = control_module
+        self.frame_queue = frame_queue
 
     def activate(self):
         self.isActive = True

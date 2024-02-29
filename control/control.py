@@ -20,27 +20,28 @@ from config import is_debug_mode
 class CentralControlModule:
     current_mode = Mode()
     
-    def __init__(self):
+    def __init__(self, command_queue, frame_queue):
         
+        self.command_queue = command_queue
+        self.frame_queue = frame_queue
         # Initialize io_modules
         self.io_modules = {
-            'camera': CameraModule(self, ),
+            'camera': CameraModule(self),
             'speaker': SpeakerModule(self),
             'microphone': MicrophoneModule(self),
         }
-
-        # Initialize modes
-        self.modes = {
-            'TextReading': TextReadingMode(self),
-            'ObjectFinding': ObjectFindingMode(self),
-            'Idle': IdleMode(self),
-        }
-
         # Initialize odules
         self.modules = {
             'text_recognition': TextRecognitionModule(),
             'object_detection': ObjectDetectionModule(),
         }
+        # Initialize modes
+        self.modes = {
+            'TextReading': TextReadingMode(self, self.frame_queue),
+            'ObjectFinding': ObjectFindingMode(self, self.frame_queue),
+            'Idle': IdleMode(self, self.frame_queue),
+        }
+
 
         # Set initial mode
         self.current_mode = self.modes['Idle']
@@ -61,19 +62,25 @@ class CentralControlModule:
             self.switch_mode('Idle')
 
 
-    def receive_notification(self, module_name, data: dict):
-        if module_name == "SpeechRecognition" and data['mode'] in self.modes:
+    def receive_command(self, data: dict):
+        if 'hey neo' in data:
+            # TODO: play a ding sound
+            self.switch_mode('Idle')
+
+        if 'mode' in data and data['mode'] in self.modes:
             self.switch_mode(data['mode'])
 
         else:
-            if is_debug_mode(): print(f"Received notification from {module_name} with data: {data}")
+            if is_debug_mode(): print(f"Received notification with data: {data}")
 
     def main_loop(self):
         # Main loop logic
 
         while True:
             sleep(2)
-            if is_debug_mode(): print("Mode: " + self.current_mode.__name__())
+            print("checking queue")
+            if not self.command_queue.empty():
+                data = self.command_queue.get()
+                self.receive_command(data)
+
             self.current_mode.main_loop()
-
-
