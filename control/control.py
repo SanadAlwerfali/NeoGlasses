@@ -63,12 +63,8 @@ class CentralControlModule:
 
 
     def receive_command(self, data: dict):
-        if 'hey neo' in data:
-            # TODO: play a ding sound
-            self.switch_mode('Idle')
-
-        if 'mode' in data and data['mode'] in self.modes:
-            self.switch_mode(data['mode'])
+        if "mode" in data and data["mode"] in self.modes:
+            self.switch_mode(data["mode"])
 
         else:
             if is_debug_mode(): print(f"Received notification with data: {data}")
@@ -77,8 +73,8 @@ class CentralControlModule:
         # Main loop logic
 
         while True:
-            sleep(2)
-            print("checking queue")
+            sleep(0.1)
+            # print("checking queue")
             if not self.command_queue.empty():
                 data = self.command_queue.get()
                 self.receive_command(data)

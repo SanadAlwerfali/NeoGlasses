@@ -51,7 +51,7 @@ class NeoGlasses:
         finally:
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
-            self.user_input.disable()
+            # self.user_input.disable()
             pass
 
 if __name__ == "__main__":

@@ -1,8 +1,7 @@
 import speech_recognition as sr
 
 class MicrophoneModule:
-    def __init__(self, control_module, microphone_index=0):
-        self.control_module = control_module
+    def __init__(self, microphone_index=0):
         self.microphone_index = microphone_index
 
     def listen(self):
@@ -24,7 +23,7 @@ class MicrophoneModule:
 
                 # Print the recognized text in real-time
                 print("You said:", text)
-                return text
+                return text.lower()
 
             except sr.UnknownValueError:
                 # Speech not recognized
