@@ -37,7 +37,7 @@ class CentralControlModule:
         }
         # Initialize modes
         self.modes = {
-            'TextReading': TextReadingMode(self, self.frame_queue),
+            'TextReading': TextReadingMode(self.frame_queue),
             'ObjectFinding': ObjectFindingMode(self, self.frame_queue),
             'Idle': IdleMode(self, self.frame_queue),
         }
@@ -73,7 +73,7 @@ class CentralControlModule:
         # Main loop logic
 
         while True:
-            sleep(0.1)
+            sleep(1)
             # print("checking queue")
             if not self.command_queue.empty():
                 data = self.command_queue.get()
