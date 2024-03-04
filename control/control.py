@@ -38,8 +38,8 @@ class CentralControlModule:
         # Initialize modes
         self.modes = {
             'TextReading': TextReadingMode(self.frame_queue),
-            'ObjectFinding': ObjectFindingMode(self, self.frame_queue),
-            'Idle': IdleMode(self, self.frame_queue),
+            'ObjectFinding': ObjectFindingMode(self.frame_queue),
+            'Idle': IdleMode(self.frame_queue),
         }
 
 
