@@ -3,8 +3,7 @@ import cv2
 from config import is_debug_mode
 
 class CameraModule:
-    def __init__(self, control_module, camera_index=0):
-        self.control_module = control_module
+    def __init__(self, camera_index=0):
         self.camera_index = camera_index
         self.isEnabled = False
 
