@@ -1,6 +1,3 @@
-# Yolo Large File
-utilities/yolov3.weights
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
