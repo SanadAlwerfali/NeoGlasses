@@ -35,10 +35,9 @@ class NeoGlasses:
             command_input_thread = threading.Thread(target=target_function)
             command_input_thread.start()
             
-            if gui:
-                self.neo_gui = NeoGlassesGUI(self.frame_queue)
-                neo_gui_thread = threading.Thread(target=self.neo_gui.mainloop)
-                neo_gui_thread.start()
+            # if gui:
+            #     self.neo_gui = NeoGlassesGUI(self.frame_queue)
+            #     self.neo_gui.mainloop()
 
             self.central_control.main_loop()
 
@@ -51,7 +50,7 @@ class NeoGlasses:
         finally:
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
-            self.user_input.disable()
+            # self.user_input.disable()
             pass
 
 if __name__ == "__main__":
