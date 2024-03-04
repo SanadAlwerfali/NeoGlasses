@@ -9,11 +9,11 @@ from modules.keyboard_input_io import MockSpeechRecognition
 from config import is_debug_mode
 
 class UserInputModule(ModuleIO):
-    def __init__(self, neo):
-        if not is_debug_mode():
-            self.impl = SpeechRecognition(neo)
+    def __init__(self, neo, commands):
+        if is_debug_mode():
+            self.impl = MockSpeechRecognition(neo, commands=commands)
         else:
-            self.impl = MockSpeechRecognition(neo)
+            self.impl = SpeechRecognition(neo, commands=commands)
 
     def process_command(self):
         self.impl.process_command()

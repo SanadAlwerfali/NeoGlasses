@@ -15,14 +15,20 @@ class TextRecognitionModule:
         _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
         se = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         dilated = cv2.dilate(binary, se)
-        text = pytesseract.image_to_string(dilated)
-
+        try:
+            text = pytesseract.image_to_string(dilated)
+        except:
+            raise ValueError("pytesseract could not detect text.")
+        
         is_text_detected = bool(text.strip())
         return is_text_detected, text, dilated
 
     def recognize_text(self, frame):
-        is_detected, _, dilated_frame= self.text_detection(frame)
+        #FIXME: Logic Needs fixing, it is not waiting for frames to be processed as the frame has already been captured
+
         if self.isEnabled:
+            is_detected, text, dilated_frame= self.text_detection(frame)
+            
             if is_detected:
                 self.frame_count += 1
 

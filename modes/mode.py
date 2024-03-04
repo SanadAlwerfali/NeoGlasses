@@ -1,14 +1,19 @@
 class Mode:
-    def __init__(self):
-        self.isActive = None
+    def __init__(self, camera=None, speaker=None, frame_queue=None):
+        self.isActive = False
+        self.camera = camera
+        self.speaker = speaker
+        self.frame_queue = frame_queue
     
-    def activate(self):
-        raise NotImplementedError("Subclasses should implement this!")
+    def activate(self, **kwargs):
+        self.isActive = True
+        self.settings = kwargs
 
     def deactivate(self):
-        raise NotImplementedError("Subclasses should implement this!")
+        self.isActive = False
+        self.settings = None
 
-    def is_active(self) -> bool:
+    def is_active(self):
         return self.isActive
         
     def main_loop(self):

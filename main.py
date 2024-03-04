@@ -9,13 +9,20 @@ from control.control import CentralControlModule
 from control.user_input import UserInputModule
 from control.NeoGlassesGUI import NeoGlassesGUI
 
+from modules.commands import Commands
+from modules.YOLO import YOLO
 
 class NeoGlasses:
 
     def __init__(self):
-        self.command_queue = queue.Queue()
-        self.frame_queue = queue.Queue()
-        pass
+        self.central_control = None
+        self.user_input = None
+        self.neo_gui = None
+
+        self.yolo = None 
+
+        self.command_queue = queue.Queue() # For User Input 
+        self.frame_queue = queue.Queue() # For Camera Frames - between Camera(Input) and GUI(Output)
 
     def send_command(self, data):
         # TODO: call curent_mode.deactivate() from here
@@ -26,19 +33,29 @@ class NeoGlasses:
             print("Running in debug mode...")
             
         try:
-            self.central_control = CentralControlModule(self.command_queue, self.frame_queue)
-            self.user_input = UserInputModule(self)
+            # Need to initialize yolo at the start of the program
+            yoloConfig = 'utilities/yolov3.cfg'
+            yoloWeights = 'utilities/yolov3.weights'
+            classFile = 'utilities/coco.names'
+
+            yolo = YOLO(yoloConfig, yoloWeights, classFile)
+
+            self.central_control = CentralControlModule(self.command_queue, self.frame_queue, yolo=yolo)
+            
+            commands = Commands(yolo=yolo)
+            self.user_input = UserInputModule(self, commands)
             self.user_input.enable()
 
 
             target_function = lambda: self.user_input.process_command()
-            command_input_thread = threading.Thread(target=target_function)
-            command_input_thread.start()
+            self.command_input_thread = threading.Thread(target=target_function)
+            self.command_input_thread.start()
             
             if gui:
                 self.neo_gui = NeoGlassesGUI(self.frame_queue)
-                neo_gui_thread = threading.Thread(target=self.neo_gui.mainloop)
-                neo_gui_thread.start()
+                self.neo_gui_thread = threading.Thread(target=self.neo_gui.mainloop)
+                self.neo_gui_thread.start()
+
 
             self.central_control.main_loop()
 
@@ -51,8 +68,16 @@ class NeoGlasses:
         finally:
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
-            self.user_input.disable()
-            pass
+            if self.user_input:
+                self.user_input.disable()
+            
+            if self.central_control:
+                self.central_control.deactivate()
+            
+            #TODO:
+            # if self.neo_gui_thread.:
+            #     self.neo_gui_thread.
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the central control system.')

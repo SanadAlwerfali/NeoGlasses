@@ -2,26 +2,32 @@
 from modules.commands import Commands
 
 class SpeechRecognition:
-
+    def __init__(self, neo, commands):
+        self.neo = neo
+        self.commands = commands
+        
     def process_command(self):
-        text = ""
         # Process voice command
+        microphone_text = ""
+        
         #TODO: Add a listen() to continuously listening to voice commands from Kareems
+
         if self.isEnabled:
             data ={
                 'mode' : None,
-                'text' : None
+                'specific_object_label' : None
             }
             # Voice command processing logic
-            new_mode = Commands.get_command_mode(text) # get the right command mode
-            data['mode'] = new_mode
-            data['text'] = text # TODO: get the needed text from the argument passed
+            
+            # Get the right command mode
+            data['mode'] = self.commands.get_command_mode(microphone_text) 
+            # Get the specified object label if it exists
+            data['specific_object_label'] = self.commands.get_object_label(microphone_text)
 
-            if new_mode:
+            if data['mode']:
                 self.send_command(data)
     
-    def __init__(self, neo):
-        self.neo = neo
+
     
     def enable(self):
         self.isEnabled = True        
