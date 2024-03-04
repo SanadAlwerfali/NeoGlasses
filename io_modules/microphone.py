@@ -10,8 +10,6 @@ class MicrophoneModule:
 
         # Use the default microphone as the audio source
         with sr.Microphone() as source:
-            # Adjust for ambient noise if necessary
-            recognizer.adjust_for_ambient_noise(source)
             print("Listening...")
 
             try:
