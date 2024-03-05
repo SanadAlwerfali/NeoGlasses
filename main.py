@@ -15,8 +15,8 @@ from modules.YOLO import YOLO
 class NeoGlasses:
 
     def __init__(self):
-        self.central_control = None
-        self.user_input = None
+        self.command_queue = queue.Queue()
+        self.frame_queue = queue.Queue()
         self.neo_gui = None
 
         self.yolo = None 
@@ -48,14 +48,12 @@ class NeoGlasses:
 
 
             target_function = lambda: self.user_input.process_command()
-            self.command_input_thread = threading.Thread(target=target_function)
-            self.command_input_thread.start()
+            command_input_thread = threading.Thread(target=target_function)
+            command_input_thread.start()
             
-            if gui:
-                self.neo_gui = NeoGlassesGUI(self.frame_queue)
-                self.neo_gui_thread = threading.Thread(target=self.neo_gui.mainloop)
-                self.neo_gui_thread.start()
-
+            # if gui:
+            #     self.neo_gui = NeoGlassesGUI(self.frame_queue)
+            #     self.neo_gui.mainloop()
 
             self.central_control.main_loop()
 
@@ -77,7 +75,6 @@ class NeoGlasses:
             #TODO:
             # if self.neo_gui_thread.:
             #     self.neo_gui_thread.
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the central control system.')

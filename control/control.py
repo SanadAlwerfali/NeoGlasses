@@ -12,13 +12,14 @@ from modes.object_finding_mode import ObjectFindingMode
 # importing modules
 from modules.text_recognition_io import TextRecognitionModule
 from modules.object_detection_io import ObjectDetectionModule
+from modules.text_to_speech_io import TextToSpeechModule
 # importing other modules
 from time import sleep
 from config import is_debug_mode
 
 
 class CentralControlModule:
-    
+
     def __init__(self, command_queue, frame_queue, yolo):
         self.isAlive = True
         
@@ -47,13 +48,13 @@ class CentralControlModule:
         self.current_mode = self.modes['Idle']
         if is_debug_mode(): print(f"Central Control Module initialized.\nCurrent mode: {self.current_mode.__name__()}")
 
-    def switch_mode(self, data):
-        cmmnd_mode_name = data['mode']
 
+    def switch_mode(self, mode_name):
         # Deactivate current mode
         if self.current_mode:
             self.current_mode.deactivate()
 
+        # Activate new mode
         try:
             if is_debug_mode(): print(f"Switching to mode: {cmmnd_mode_name}")
             # Get mode
@@ -71,12 +72,8 @@ class CentralControlModule:
 
 
     def receive_command(self, data: dict):
-        if 'hey neo' in data: #FIXME
-            # TODO: play a ding sound
-            self.switch_mode('Idle')
-
-        if 'mode' in data and data['mode'] in self.modes:
-            self.switch_mode(data)
+        if "mode" in data and data["mode"] in self.modes:
+            self.switch_mode(data["mode"])
 
         else:
             if is_debug_mode(): print(f"Received notification with data: {data}")
@@ -84,23 +81,11 @@ class CentralControlModule:
     def main_loop(self):
         # Main loop logic
 
-        while self.isAlive:
-            sleep(2)
-            print("checking queue")
-
+        while True:
+            sleep(1)
+            # print("checking queue")
             if not self.command_queue.empty():
                 data = self.command_queue.get()
                 self.receive_command(data)
 
-            #FIXME: Need to override current_mode main_loop incase of New Mode called
-            # Maybe let it run in a separate thread?
-            self.current_mode.main_loop()
-
-    def deactivate(self):
-        self.isAlive = False
-        self.current_mode.deactivate()
-        for io_module in self.io_modules.values():
-            io_module.disable()
-
-    def __name__(self):
-        return "Central Control Module"
+            self.current_mode.main_loop() # FIXME: Once gets to a loop wont be able to get to intercept the next command
