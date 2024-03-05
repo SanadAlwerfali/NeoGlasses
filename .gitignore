@@ -1,5 +1,5 @@
-# yolov3.weights
-yolov3.weights
+# files to ignore
+utilities/yolov3.weights
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
