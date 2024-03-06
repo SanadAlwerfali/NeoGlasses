@@ -15,7 +15,7 @@ class TextRecognitionModule:
         _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
         se = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         dilated = cv2.dilate(binary, se)
-                try:
+        try:
             text = pytesseract.image_to_string(dilated)
         except:
             raise ValueError("pytesseract could not detect text.")

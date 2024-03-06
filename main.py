@@ -9,6 +9,8 @@ from control.control import CentralControlModule
 from control.user_input import UserInputModule
 from control.NeoGlassesGUI import NeoGlassesGUI
 
+from io_hardware.microphone import MicrophoneModule
+
 from modules.commands import Commands
 from modules.YOLO import YOLO
 
@@ -18,11 +20,14 @@ class NeoGlasses:
         self.command_queue = queue.Queue()
         self.frame_queue = queue.Queue()
         self.neo_gui = None
+        self.user_input = None
+        self.central_control = None
 
         self.yolo = None 
 
         self.command_queue = queue.Queue() # For User Input 
         self.frame_queue = queue.Queue() # For Camera Frames - between Camera(Input) and GUI(Output)
+
 
     def send_command(self, data):
         # TODO: call curent_mode.deactivate() from here
@@ -34,16 +39,18 @@ class NeoGlasses:
             
         try:
             # Need to initialize yolo at the start of the program
-            yoloConfig = 'utilities/yolov3.cfg'
-            yoloWeights = 'utilities/yolov3.weights'
-            classFile = 'utilities/coco.names'
+            yoloConfig = 'utils/yolov3.cfg'
+            yoloWeights = 'utils/yolov3.weights'
+            classFile = 'utils/coco.names'
 
             yolo = YOLO(yoloConfig, yoloWeights, classFile)
 
-            self.central_control = CentralControlModule(self.command_queue, self.frame_queue, yolo=yolo)
+            microphone = MicrophoneModule()
+
+            self.central_control = CentralControlModule(self.command_queue, self.frame_queue, yolo=yolo, microphone=microphone)
             
             commands = Commands(yolo=yolo)
-            self.user_input = UserInputModule(self, commands)
+            self.user_input = UserInputModule(self, commands,microphone=microphone)
             self.user_input.enable()
 
 
@@ -58,23 +65,28 @@ class NeoGlasses:
             self.central_control.main_loop()
 
         
-        except KeyboardInterrupt:
+        except Exception as e:
+            if debug: 
+                print(f"An unexpected error occurred:")
+                print(Exception, e, e.__doc__)
+        finally:
             # Graceful shutdown if the program is interrupted (e.g., Ctrl+C)
             if debug: print("Shutting down the system...")
-        except Exception as e:
-            if debug: print(f"An unexpected error occurred: {e}")
-        finally:
+
             # Any final cleanup code can be placed here
             # This is important for releasing resources like file handles or network connections
+            if self.central_control:
+                self.central_control.deactivate()
+
             if self.user_input:
                 self.user_input.disable()
             
-            if self.central_control:
-                self.central_control.deactivate()
             
             #TODO:
             # if self.neo_gui_thread.:
             #     self.neo_gui_thread.
+
+            quit()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the central control system.')

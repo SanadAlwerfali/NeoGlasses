@@ -16,7 +16,7 @@ class Commands:
         for command, mode in Commands.COMMANDS_LIST.items():
             if command in command_text:
                 return mode
-        return "Idle"  # Return a default mode if no command is matched
+        return None
 
     @staticmethod
     def get_object_label(command_text):
