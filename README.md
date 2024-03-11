@@ -112,7 +112,7 @@ project_root/
 │   ├── voice_command.py    # Voice Command Processing Module
 │   └── control.py          # Central Control Module
 │
-├── utilities/              # Utility functions and classes
+├── utils/              # Utility functions and classes
 │   ├── __init__.py         # Makes utilities a Python package
 │   └── ...                 # Additional utility scripts
 │
@@ -138,7 +138,7 @@ project_root/
     - `control.py`: Contains the Central Control Module, coordinating other modules.
 
 
-- `utilities/`: A directory for shared utility functions and classes that are used across different modules.
+- `utils/`: A directory for shared utility functions and classes that are used across different modules.
 
 - `tests/`: Contains unit tests for each module, ensuring code reliability and facilitating maintenance.
 

@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 
 from control.control import CentralControlModule
 from modes.text_reading_mode import TextReadingMode
-from io_modules.camera import CameraModule
+from io_hardware.camera import CameraModule
 
 class NeoGlassesGUI(tk.Tk):
     def __init__(self, frame_queue):
