@@ -4,6 +4,7 @@ class IdleMode(Mode):
     def __init__(self,frame_queue):
         super().__init__()
         self.frame_queue = frame_queue
+        self.isActive = True
         
     def activate(self):
         self.isActive = True
@@ -16,5 +17,5 @@ class IdleMode(Mode):
             #write the logic here
             pass
 
-    def __name__(self) -> str:
+    def get_name(self):
         return "Idle"

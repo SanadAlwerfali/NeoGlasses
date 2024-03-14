@@ -1,6 +1,9 @@
 # Central Control Module
 
 # importing io_modules
+import cv2
+import numpy as np
+import easygui
 from io_modules.camera import CameraModule
 from io_modules.speaker import SpeakerModule
 from io_modules.microphone import MicrophoneModule
@@ -16,6 +19,7 @@ from modules.text_to_speech_io import TextToSpeechModule
 # importing other modules
 from time import sleep
 from config import is_debug_mode
+
 
 
 class CentralControlModule:
@@ -71,9 +75,21 @@ class CentralControlModule:
         else:
             if is_debug_mode(): print(f"Received notification with data: {data}")
 
+
+    def update_status_popup(self):
+        status_text = (
+            f"Current Mode: {self.current_mode.get_name()}\n" 
+            f"{self.current_mode.get_name()} Status: {'On' if self.current_mode.isActive else 'Off'}\n"
+            f"Microphone Status: {self.io_modules['microphone'].isEnabled}\n"
+            f"Camera Status: {self.io_modules['camera'].isEnabled}\n"
+            f"Speaker Status: {self.io_modules['speaker'].isEnabled}"
+        )
+        #print (status_text)
+        easygui.msgbox(status_text, title="System Status", ok_button="OK")
+
+    
     def main_loop(self):
         # Main loop logic
-
         while True:
             sleep(1)
             # print("checking queue")
@@ -82,3 +98,4 @@ class CentralControlModule:
                 self.receive_command(data)
 
             self.current_mode.main_loop()
+            self.update_status_popup()

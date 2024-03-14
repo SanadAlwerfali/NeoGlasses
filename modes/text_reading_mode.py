@@ -14,6 +14,7 @@ class TextReadingMode(Mode):
         self.text_recognition = TextRecognitionModule()
         self.text__to_speech = TextToSpeechModule()
         self.frame_queue = frame_queue
+        self.isActive = False
 
     def activate(self):
         self.isActive = True
@@ -41,9 +42,18 @@ class TextReadingMode(Mode):
                 print(recognized_text)
                 self.text__to_speech.convert(recognized_text)
                 break
-                
+            
+            cv2.imshow("NeoGlasses", dilated_frame)
+            
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('q'):
+                cv2.destroyAllWindows()
+                for i in range (1,5):
+                    cv2.waitKey(1)
+                break
+
         self.camera.disable()
         self.deactivate()
 
-    def __name__(self):
+    def get_name(self):
         return "TextReading"

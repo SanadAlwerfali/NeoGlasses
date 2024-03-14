@@ -10,6 +10,7 @@ class ObjectFindingMode(Mode):
         self.camera = CameraModule()
         self.object_detection = ObjectDetectionModule()
         self.frame_queue = frame_queue
+        self.isActive = False
 
     def activate(self):
         self.isActive = True
@@ -33,5 +34,5 @@ class ObjectFindingMode(Mode):
             pass
 
 
-    def __name__(self):
+    def get_name(self):
         return "ObjectFinding"
