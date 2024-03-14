@@ -15,7 +15,7 @@ class UserInputModule(ModuleIO):
         # else:
         #     self.impl = SpeechRecognition(neo, commands=commands)
 
-        self.impl = SpeechRecognition(neo, commands=commands)#, microphone=microphone)
+        self.impl = SpeechRecognition(neo, commands=commands, microphone=microphone)
 
     def process_command(self):
         self.impl.process_command()
