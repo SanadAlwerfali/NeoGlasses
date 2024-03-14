@@ -1,5 +1,4 @@
 import cv2
-
 from config import is_debug_mode
 
 class CameraModule:
