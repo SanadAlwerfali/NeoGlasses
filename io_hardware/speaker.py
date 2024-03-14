@@ -14,7 +14,8 @@ class SpeakerModule:
 
     def speak(self, text):
         if not self.enabled:
-            raise Exception("Speaker is not enabled. Call 'enable()' to start speaking.")
+            print("Speaker is not enabled. Call 'enable()' to start speaking.")
+            return
 
         self.engine.say(text)
         self.engine.runAndWait()

@@ -20,7 +20,7 @@ class MicrophoneModule:
                     # Recognize speech using Google Speech Recognition
                     text = recognizer.recognize_google(audio_data)
                     text = f"{text}"
-                    text.lower()
+                    text = text.lower()
                     # Print the recognized text in real-time
                     # if is_debug_mode(): 
                     print("Microphone: ", text)

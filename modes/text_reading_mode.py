@@ -3,6 +3,7 @@ from time import sleep
 from modes.mode import Mode
 from io_hardware.camera import CameraModule
 from modules.text_recognition_io import TextRecognitionModule
+from config import is_debug_mode
 
 
 class TextReadingMode(Mode):

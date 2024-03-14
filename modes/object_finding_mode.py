@@ -16,7 +16,7 @@ class ObjectFindingMode(Mode):
 
             if target_label: # if target_label is not None
                 self.text_to_speech.convert(f"Looking for {target_label}.")
-                self.text_to_speech.convert("Please move around the camera.")
+                self.text_to_speech.convert("Please move the camera around.")
                 while self.isActive:
                     # Look for the object
                     frame = self.camera.get_next_frame()
