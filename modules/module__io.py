@@ -7,6 +7,9 @@ class ModuleIO:
 
     def disable(self):
         raise NotImplementedError("Subclasses should implement this!")
+
+    def isEnabled(self):
+        return self.isEnabled
     
     def __name__(self) -> str:
         raise NotImplementedError("Subclasses should implement this!")

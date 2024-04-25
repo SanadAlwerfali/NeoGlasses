@@ -1,33 +1,31 @@
 import cv2
 from time import sleep
 from modes.mode import Mode
-from io_modules.camera import CameraModule
+from io_hardware.camera import CameraModule
 from modules.text_recognition_io import TextRecognitionModule
-from modules.text_to_speech_io import TextToSpeechModule
+from config import is_debug_mode
 
 
 class TextReadingMode(Mode):
-    def __init__(self, frame_queue):
-        super().__init__()
+    def __init__(self, camera=None, speaker=None, frame_queue=None, text_to_speech=None):
+        super().__init__(camera=camera, speaker=speaker, frame_queue=frame_queue, text_to_speech=text_to_speech)
         self.frame = None
-        self.camera = CameraModule()
         self.text_recognition = TextRecognitionModule()
-        self.text__to_speech = TextToSpeechModule()
-        self.frame_queue = frame_queue
 
-    def activate(self):
+    def activate(self, **kwargs):
+        self.settings = kwargs
         self.isActive = True
         # Enable necessary modules for text reading
         self.camera.enable()
         self.text_recognition.enable()
-        self.text__to_speech.enable()
 
     def deactivate(self):
+        self.settings = None
         self.isActive = False
         # Disable the modules when leaving text reading mode
         self.camera.disable()
         self.text_recognition.disable()
-        self.text__to_speech.disable()
+
 
     def main_loop(self):
         while self.isActive:
@@ -38,8 +36,9 @@ class TextReadingMode(Mode):
             self.frame_queue.put(display_frame)
             
             if recognized_text:
-                print(recognized_text)
-                self.text__to_speech.convert(recognized_text)
+                if is_debug_mode(): print(recognized_text)
+
+                self.text_to_speech.convert(recognized_text)
                 break
                 
         self.camera.disable()

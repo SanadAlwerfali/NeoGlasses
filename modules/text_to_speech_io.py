@@ -1,14 +1,15 @@
 # Text-to-Speech Module
 from modules.module__io import ModuleIO
-from io_modules.speaker import SpeakerModule
+from io_hardware.speaker import SpeakerModule
 from time import sleep
 
 
 class TextToSpeechModule(ModuleIO):
-    def __init__(self):
+    def __init__(self, microphone=None):
         # Initialize text-to-speech parameters
         super().__init__()
-        self.speaker = SpeakerModule(self)
+        self.speaker = SpeakerModule()
+        self.enable()
 
     def convert(self, text):
         if self.isEnabled:
